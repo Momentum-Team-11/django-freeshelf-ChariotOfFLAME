@@ -17,7 +17,10 @@ class Book(models.Model):
     description = models.TextField(max_length=2000)
     url = models.URLField(max_length=500, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
-    categories = models.ManyToManyField("Category", related_name="book", blank=True)
+    categories = models.ManyToManyField("Category", related_name="books",
+                                        blank=True)
+    favorited_by = models.ManyToManyField(User,
+                                          related_name="favorite_books")
 
     def publish(self):
         self.save()

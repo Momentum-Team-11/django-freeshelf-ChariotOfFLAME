@@ -21,6 +21,14 @@ def list_books(request):
 
 
 @login_required
+def add_favorite(request, book_pk):
+    user = request.user
+    book = get_object_or_404(Book, pk=book_pk)
+    user.favorite_books.add(book)
+    return render(request, "books/list_books.html", {'user': user, 'book': book})
+
+
+@login_required
 def sort_by_category(request, slug):
     books = Book.objects.filter(categories__slug=slug)
 
