@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from books import views as books_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('accounts/', include('registration.backends.simple.urls'))
+    path('auth/', include('registration.backends.simple.urls')),
+    path('', books_views.home, name='home'),
+    path('books/', books_views.list_books, name='list_books'),
+    path('books/<int:pk>/edit', books_views.edit_book, name='edit'),
+    path('books/<int:pk>/delete', books_views.delete_book, name='delete'),
+    path('books/categories/<slug:slug>', 
+         books_views.sort_by_category, name='sort_by_category'),
 ]
