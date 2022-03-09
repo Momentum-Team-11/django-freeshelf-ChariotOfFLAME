@@ -4,3 +4,7 @@ def is_staff(user):
 
 def is_user(user):
     return user.id
+
+
+def book_is_favorited(user, album):
+    return user.favorite_books.filter(pk=album.pk).exists()

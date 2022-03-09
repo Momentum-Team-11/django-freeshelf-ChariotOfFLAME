@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Book
 from .models import User
-from .view_helpers import is_staff, is_user
+from .view_helpers import is_staff, is_user, book_is_favorited
 from .forms import BookForm
 # from .forms import BooksForm
 
@@ -25,7 +25,14 @@ def add_favorite(request, book_pk):
     user = request.user
     book = get_object_or_404(Book, pk=book_pk)
     user.favorite_books.add(book)
-    return render(request, "books/list_books.html", {'user': user, 'book': book})
+    return redirect(to="list_books")
+
+@login_required
+def remove_favorite(request, book_pk):
+    user = request.user
+    book = get_object_or_404(Book, pk=book_pk)
+    user.favorite_books.remove(book)
+    return redirect(to="list_books")
 
 
 @login_required
