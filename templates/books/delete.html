@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Freeshelf: Delete Book</title>
+{% endblock %}
+
+{% block content %}
+<div class="container is-fluid">
+    <h1 class="title">Delete {{ book.title }}</h1>
+
+    <div>
+        <form action="{% url 'delete' pk=book.pk %}" method="POST">
+            {% csrf_token %}
+            <p class="subtitle">Are you sure you want to delete {{ book.title }}?</p>
+            <div>
+                <button class="button is-danger is-small" type="submit">Delete {{ book.title }}</button><br />
+                <a href="{% url 'list_books' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

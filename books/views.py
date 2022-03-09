@@ -31,7 +31,14 @@ def sort_by_category(request, slug):
 @login_required
 @user_passes_test(is_staff)
 def add_book(request):
-    pass
+    if request.method == 'GET':
+        form = BookForm()
+    else:
+        form = BookForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to='list_books')
+    return render(request, "books/new.html", {"form": form})
 
 
 @login_required
