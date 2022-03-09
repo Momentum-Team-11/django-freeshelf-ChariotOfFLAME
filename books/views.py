@@ -22,6 +22,14 @@ def list_books(request):
 
 
 @login_required
+def favorites(request):
+    books = Book.objects.all()
+    books = books.order_by("-id")
+
+    return render(request, "books/favorites.html", {"books": books})
+
+
+@login_required
 def add_favorite(request, book_pk):
     user = request.user
     book = get_object_or_404(Book, pk=book_pk)
@@ -34,6 +42,14 @@ def remove_favorite(request, book_pk):
     book = get_object_or_404(Book, pk=book_pk)
     user.favorite_books.remove(book)
     return redirect(to="list_books")
+
+
+@login_required
+def remove_favorite_deep(request, book_pk):
+    user = request.user
+    book = get_object_or_404(Book, pk=book_pk)
+    user.favorite_books.remove(book)
+    return redirect(to="favorites")
 
 
 @login_required
