@@ -8,35 +8,40 @@
 <div class="uk-container">
     <h1>Favorites</h1>
     <div class="uk-child-width-1-3@m uk-grid uk-flex" uk-grid>
-        {% for book in books %}
-            {% if book in user.favorite_books.all %}
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        {% for categories in book.categories.all %}
-                            {% if book.categories %}
-                                <div class="uk-label uk-label-success">{{ categories }}</a></div>
+        {% if user.favorite_books.all %}
+            {% for book in books %}
+                {% if book in user.favorite_books.all %}
+                    <div>
+                        <div class="uk-card uk-card-primary uk-card-body uk-card-hover">
+                            {% for categories in book.categories.all %}
+                                {% if book.categories %}
+                                    <div class="uk-label uk-label-success">{{ categories }}</a></div>
+                                {% endif %}
+                            {% endfor %}
+                            {% if book in user.favorite_books.all %}
+                                <span class="uk-position-right uk-margin uk-margin-top"><a href="{% url 'remove_favorite_deep' book_pk=book.pk %}" class="uk-icon-button uk-margin-small-right" uk-icon="check"></a></span>
                             {% endif %}
-                        {% endfor %}
-                        {% if book in user.favorite_books.all %}
-                            <span class="uk-position-right uk-margin uk-margin-top"><a href="{% url 'remove_favorite_deep' book_pk=book.pk %}" class="uk-icon-button uk-margin-small-right" uk-icon="check"></a></span>
-                        {% endif %}
-                        <div class="uk-card-header">
-                            <h2 class="uk-card-title uk-text-center">{{ book.title }}</h2>
-                            <div class="uk-text-bolder uk-text-center">by {{ book.author }}</div>
+                            <div class="uk-card-header">
+                                <h2 class="uk-card-title uk-text-center">{{ book.title }}</h2>
+                                <div class="uk-text-bolder uk-text-center">by {{ book.author }}</div>
+                            </div>
+                            {% if book.description %}
+                                <div>{{ book.description }}</div>
+                            {% endif %}
+                            {% if user.is_staff %}
+                                <p>Admin Controls:<br>
+                                    <a class="has-text-link-light" href="{% url 'edit' pk=book.pk %}">Edit Book</a><br>    
+                                    <a class="has-text-danger-light" href="{% url 'delete' pk=book.pk %}">Delete Book</a>
+                                </p>
+                            {% endif %}
                         </div>
-                        {% if book.description %}
-                            <div>{{ book.description }}</div>
-                        {% endif %}
-                        {% if user.is_staff %}
-                            <p>Admin Controls:<br>
-                                <a class="has-text-link-light" href="{% url 'edit' pk=book.pk %}">Edit Book</a><br>    
-                                <a class="has-text-danger-light" href="{% url 'delete' pk=book.pk %}">Delete Book</a>
-                            </p>
-                        {% endif %}
                     </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h2 class="uk-text-muted">There's nothing here...</h2>
+            <h2><a href="{% url 'home' %}">Return to List</a></h2>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
