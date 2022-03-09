@@ -17,6 +17,7 @@ def home(request):
 @login_required
 def list_books(request):
     books = Book.objects.all()
+    books = books.order_by("-id")
     return render(request, 'books/list_books.html', {'books': books})
 
 

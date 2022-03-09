@@ -19,7 +19,7 @@
                             <div class="uk-label uk-label-success">{{ categories }}</a></div>
                         {% endif %}
                     {% endfor %}
-                    {% if book.favorited_by.all %}
+                    {% if book in user.favorite_books.all %}
                         <span class="uk-position-right uk-margin uk-margin-top"><a href="{% url 'remove_favorite' book_pk=book.pk %}" class="uk-icon-button uk-margin-small-right" uk-icon="check"></a></span>
                     {% else %}
                         <span class="uk-position-right uk-margin uk-margin-top"><a href="{% url 'add_favorite' book_pk=book.pk %}" class="uk-icon-button uk-margin-small-right" uk-icon="plus"></a></span>
