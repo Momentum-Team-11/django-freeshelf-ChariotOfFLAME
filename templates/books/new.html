@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Freeshelf: Add Book</title>
+{% endblock %}
+
+{% block content %}
+<div class="container is-fluid">
+    <h1 class="title">Add Book</h1>
+
+    <div>
+    <form action="{% url 'new' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+        <button class="button is-success is-small" type="submit">Add</button>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

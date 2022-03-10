@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Freeshelf: Edit Book</title>
+{% endblock %}
+
+{% block content %}
+<div class="container is-fluid">
+    <h1 class="title">Edit {{ book.title }}</h1>
+
+    <div>
+    <form action="{% url 'edit' pk=book.pk %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+        <button class="button is-success is-light is-small" type="submit">Update</button>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

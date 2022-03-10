@@ -14,8 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from books import views as books_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('auth/', include('registration.backends.simple.urls')),
+    path('', books_views.home, name='home'),
+    path('books/', books_views.list_books, name='list_books'),
+    path('books.new', books_views.add_book, name='new'),
+    path('books/favorites', books_views.favorites, name='favorites'),
+    path("books/<int:book_pk>/add_favorite", books_views.add_favorite, name="add_favorite"),
+    path("books/<int:book_pk>/remove_favorite", books_views.remove_favorite, name="remove_favorite"),
+    path("books/<int:book_pk>/remove_favorite_deep", books_views.remove_favorite_deep, name="remove_favorite_deep"),
+    path('books/<int:pk>/edit', books_views.edit_book, name='edit'),
+    path('books/<int:pk>/delete', books_views.delete_book, name='delete'),
+    path('books/categories/<slug:slug>', 
+         books_views.sort_by_category, name='sort_by_category'),
 ]
